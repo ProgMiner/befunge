@@ -20,11 +20,6 @@ v MIT License
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  SOFTWARE.
 
-vv"Hello, world!"<
- > ,,,,,,,,,,,,,v
->                ^
-                9
-                1
-                +
-                ,
-                >@
+>1v
+  _  ,,,,,,,,,,,,, ,@ v
+  ^0"Hello, world!"+19<
