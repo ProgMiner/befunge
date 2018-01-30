@@ -21,8 +21,8 @@
 # SOFTWARE.
 
 CC = g++
-CFLAGS = -std=c++14 -Wall -g #-O2
-LDFLAGS =
+CFLAGS = -std=c++14 -Wall -O2 #-g
+LDFLAGS +=
 
 BUILDPATH = build
 SOURCES = Stack.cpp Program.cpp Position.cpp main.cpp
@@ -31,9 +31,9 @@ EXECUTABLE = befunge
 
 OBJECTS = $(SOURCES:.cpp=.o)
 
-# ifeq ($(OS), Windows_NT)
-#     LDFLAGS += -lws2_32
-# endif
+ifeq ($(OS), Windows_NT)
+	LDFLAGS += -static-libgcc -static-libstdc++
+endif
 
 __all: __build
 
