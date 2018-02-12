@@ -27,41 +27,41 @@ LDFLAGS +=
 BUILDPATH = build
 SOURCES = Stack.cpp Program.cpp Position.cpp main.cpp
 HEADERS = Stack.h Program.h
-EXECUTABLE = befunge
+TARGET = befunge
 
-OBJECTS = $(SOURCES:.cpp=.o)
+OBJECTS = $(SOURCES:%.cpp=$(BUILDPATH)/%.o)
 
 ifeq ($(OS), Windows_NT)
-	LDFLAGS += -static-libgcc -static-libstdc++
+LDFLAGS += -static-libgcc -static-libstdc++
 endif
 
-__all: __build
+.PHONY: all examples clean build
 
+all: build examples
+
+examples: $(BUILDPATH)/examples.zip
+
+$(BUILDPATH)/examples.zip: $(wildcard *.befunge)
+	zip $@ $^
+
+clean:
 ifneq ($(OS), Windows_NT)
-
-__clean:
 	rm -rf $(BUILDPATH)
-
 else
-
-__clean:
-	del /F $(BUILDPATH)
-
+	del /F /S /Q $(BUILDPATH)
 endif
 
-__run:
-	"$(BUILDPATH)/$(EXECUTABLE)" $(ARGS)
-
-$(BUILDPATH):
-	mkdir $(BUILDPATH)
-
-__build: $(BUILDPATH) $(OBJECTS) $(EXECUTABLE)
+build: $(BUILDPATH)/$(TARGET)
 
 %.cpp:
 
-%.o: %.cpp $(HEADERS) $(BUILDPATH)
-	$(CC) -c -o $(BUILDPATH)/$@ $< $(CFLAGS)
+$(BUILDPATH)/%.o: %.cpp $(HEADERS)
+ifneq ($(OS), Windows_NT)
+	mkdir -p $(dir $@)
+else
+	if not exist "$(subst /,\,$(dir $@))" mkdir $(subst /,\,$(dir $@))
+endif
+	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(EXECUTABLE): $(OBJECTS)
-	cd "$(BUILDPATH)" && \
+$(BUILDPATH)/$(TARGET): $(OBJECTS)
 	$(CC) -o $@ $^ $(LDFLAGS)
