@@ -21,6 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 #include <iostream>
+#include <fstream>
 #include <cstring>
 #include <string>
 #include <vector>
@@ -30,6 +31,18 @@ SOFTWARE. */
 typedef std::vector <std::string> stringsVector;
 
 int main(int argc, char ** argv) {
+    std::istream * cinptr = & std::cin;
+
+    if (argc > 1) {
+        static std::ifstream fin(argv[1]);
+
+        if (fin.is_open()) {
+            cinptr = & fin;
+        }
+    }
+
+    std::istream & cin = * cinptr;
+
     stringsVector commandsVector;
     std::string::size_type width = 0;
 
@@ -37,12 +50,14 @@ int main(int argc, char ** argv) {
         static std::string tmp;
         tmp.clear();
 
-        for (char c = 0; !std::cin.eof() && c != '\n'; c = std::cin.get()) {
+        for (char c = 0; !cin.eof() && c != '\n'; c = cin.get()) {
             if (c == 0) {
                 continue;
             }
 
             tmp.push_back(c);
+
+            cin.clear();
         }
 
         if (tmp.size() > width) {
@@ -50,7 +65,7 @@ int main(int argc, char ** argv) {
         }
 
         commandsVector.push_back(tmp);
-    } while (!std::cin.eof());
+    } while (!cin.eof());
 
     char * commands[commandsVector.size()];
     for (stringsVector::size_type i = 0; i < commandsVector.size(); ++i) {
