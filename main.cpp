@@ -64,5 +64,11 @@ int main(int argc, char ** argv) {
     }
 
     Program program(commands, {width, commandsVector.size()});
-    program.run();
+
+    try {
+        program.run();
+    } catch (std::string err) {
+        std::cerr << err << '\n';
+        exit(-1);
+    }
 }

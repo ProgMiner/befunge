@@ -150,12 +150,22 @@ void Program::step() {
     case IO_IN_NUM: {
         Stack::valueType a;
         cin >> a;
+
+        if (!cin.good()) {
+            throw "Input is not good";
+        }
+
         stack.push(a);
         } break;
 
     case IO_IN_CHAR: {
         char a;
         cin >> a;
+
+        if (!cin.good()) {
+            throw "Input is not good";
+        }
+
         stack.push(a);
         } break;
 
@@ -167,8 +177,16 @@ void Program::step() {
         cout << static_cast <char> (stack.pop());
         break;
 
-    default:
-        exit(-1);
+    default: {
+        std::string err;
+
+        err += "Unknown operator on line ";
+        err += std::to_string(currentCommand.line + 1);
+        err += ", column ";
+        err += std::to_string(currentCommand.column + 1);
+
+        throw err;
+        }
     }
 
     ++currentCommand;
