@@ -82,7 +82,7 @@ int main(int argc, char ** argv) {
 
     try {
         program.run();
-    } catch (std::string err) {
+    } catch (const char * err) {
         std::cerr << err << '\n';
         exit(-1);
     }

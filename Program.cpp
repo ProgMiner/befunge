@@ -24,7 +24,20 @@ SOFTWARE. */
 
 void Program::run() {
     while (running) {
-        step();
+        try {
+            step();
+        } catch (const char * rawErr) {
+            std::string err;
+
+            err += "\"";
+            err += rawErr;
+            err += "\" exception throwed on line ";
+            err += std::to_string(currentCommand.line + 1);
+            err += ", column ";
+            err += std::to_string(currentCommand.column + 1);
+
+            throw err.c_str();
+        }
     }
 }
 
@@ -152,7 +165,7 @@ void Program::step() {
         cin >> a;
 
         if (!cin.good()) {
-            throw std::string("Input is not good");
+            throw "Input is not good";
         }
 
         stack.push(a);
@@ -162,7 +175,7 @@ void Program::step() {
         char a = cin.get();
 
         if (!cin.good()) {
-            throw std::string("Input is not good");
+            throw "Input is not good";
         }
 
         stack.push(a);
@@ -176,16 +189,8 @@ void Program::step() {
         cout << static_cast <char> (stack.pop());
         break;
 
-    default: {
-        std::string err;
-
-        err += "Unknown operator on line ";
-        err += std::to_string(currentCommand.line + 1);
-        err += ", column ";
-        err += std::to_string(currentCommand.column + 1);
-
-        throw err;
-        }
+    default:
+        throw "Unknown operator";
     }
 
     ++currentCommand;

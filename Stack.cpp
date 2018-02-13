@@ -23,10 +23,18 @@ SOFTWARE. */
 #include "Stack.h"
 
 Stack::reference & Stack::top() {
+    if (stack.empty()) {
+        throw "Stack is empty";
+    }
+
     return stack.top();
 }
 
 Stack::constReference & Stack::top() const {
+    if (stack.empty()) {
+        throw "Stack is empty";
+    }
+
     return stack.top();
 }
 
