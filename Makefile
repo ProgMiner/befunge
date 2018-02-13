@@ -35,8 +35,9 @@ ifeq ($(OS), Windows_NT)
 LDFLAGS += -static-libgcc -static-libstdc++
 endif
 
-.PHONY: all examples clean build
+.PHONY: default all examples clean build
 
+default: build
 all: build examples
 
 examples: $(BUILDPATH)/examples.zip

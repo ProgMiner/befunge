@@ -152,18 +152,17 @@ void Program::step() {
         cin >> a;
 
         if (!cin.good()) {
-            throw "Input is not good";
+            throw std::string("Input is not good");
         }
 
         stack.push(a);
         } break;
 
     case IO_IN_CHAR: {
-        char a;
-        cin >> a;
+        char a = cin.get();
 
         if (!cin.good()) {
-            throw "Input is not good";
+            throw std::string("Input is not good");
         }
 
         stack.push(a);
