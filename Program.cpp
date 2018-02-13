@@ -22,21 +22,24 @@ SOFTWARE. */
 
 #include "Program.h"
 
+#include <stdexcept>
+#include <exception>
+
 void Program::run() {
     while (running) {
         try {
             step();
-        } catch (const char * rawErr) {
+        } catch (std::exception & rawErr) {
             std::string err;
 
             err += "\"";
-            err += rawErr;
+            err += rawErr.what();
             err += "\" exception throwed on line ";
             err += std::to_string(currentCommand.line + 1);
             err += ", column ";
             err += std::to_string(currentCommand.column + 1);
 
-            throw err.c_str();
+            throw std::runtime_error(err);
         }
     }
 }
@@ -165,7 +168,7 @@ void Program::step() {
         cin >> a;
 
         if (!cin.good()) {
-            throw "Input is not good";
+            throw std::runtime_error("Input is not good");
         }
 
         stack.push(a);
@@ -175,7 +178,7 @@ void Program::step() {
         char a = cin.get();
 
         if (!cin.good()) {
-            throw "Input is not good";
+            throw std::runtime_error("Input is not good");
         }
 
         stack.push(a);
@@ -190,7 +193,7 @@ void Program::step() {
         break;
 
     default:
-        throw "Unknown operator";
+        throw std::runtime_error("Unknown operator");
     }
 
     ++currentCommand;

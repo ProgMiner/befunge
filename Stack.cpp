@@ -22,9 +22,12 @@ SOFTWARE. */
 
 #include "Stack.h"
 
+#include <exception>
+#include <stdexcept>
+
 Stack::reference & Stack::top() {
     if (stack.empty()) {
-        throw "Stack is empty";
+        throw std::range_error("Stack is empty");
     }
 
     return stack.top();
@@ -32,7 +35,7 @@ Stack::reference & Stack::top() {
 
 Stack::constReference & Stack::top() const {
     if (stack.empty()) {
-        throw "Stack is empty";
+        throw std::range_error("Stack is empty");
     }
 
     return stack.top();

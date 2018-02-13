@@ -20,6 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
+#include <exception>
 #include <iostream>
 #include <fstream>
 #include <cstring>
@@ -67,6 +68,8 @@ int main(int argc, char ** argv) {
         commandsVector.push_back(tmp);
     } while (!cin.eof());
 
+    cin.clear();
+
     char * commands[commandsVector.size()];
     for (stringsVector::size_type i = 0; i < commandsVector.size(); ++i) {
         auto & tmp = commandsVector[i];
@@ -82,8 +85,8 @@ int main(int argc, char ** argv) {
 
     try {
         program.run();
-    } catch (const char * err) {
-        std::cerr << err << '\n';
+    } catch (std::exception & err) {
+        std::cerr << err.what() << '\n';
         exit(-1);
     }
 }
